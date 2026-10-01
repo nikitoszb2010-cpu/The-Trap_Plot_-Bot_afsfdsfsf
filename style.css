@@ -1,0 +1,203 @@
+:root {
+  --bg-color: #0d0f12;
+  --term-bg: rgba(18, 22, 28, 0.85);
+  --main-green: #00ff66;
+  --accent-cyan: #00e5ff;
+  --dim-text: #5c7e8a;
+  --user-msg-bg: #162a26;
+  --pc-msg-bg: #141f2e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--main-green);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px;
+  /* Текстура сетки ПК на фоне */
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 102, 0.05) 0%, transparent 80%),
+    linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+}
+
+/* Корпус терминала */
+.pc-container {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  max-height: 750px;
+  background: var(--term-bg);
+  border: 2px solid var(--main-green);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+}
+
+/* Эффект сканирующих строк ЭЛТ-монитора */
+.pc-container::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Верхняя панель */
+.terminal-header {
+  background: rgba(0, 255, 102, 0.1);
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--main-green);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--main-green);
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 8px var(--main-green);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Контейнер сообщений */
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--main-green);
+  border-radius: 3px;
+}
+
+/* Сообщения */
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.msg.pc {
+  align-self: flex-start;
+  background: var(--pc-msg-bg);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: #d1f7ff;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: var(--user-msg-bg);
+  border: 1px solid rgba(0, 255, 102, 0.4);
+  color: #e0ffe9;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.1);
+}
+
+.msg-sender {
+  font-size: 10px;
+  margin-bottom: 4px;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.msg.pc .msg-sender { color: var(--accent-cyan); }
+.msg.user .msg-sender { color: var(--main-green); }
+
+.secret-link {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+.secret-link:hover {
+  text-shadow: 0 0 8px var(--accent-cyan);
+}
+
+/* Поле ввода */
+.chat-input-area {
+  padding: 12px;
+  border-top: 1px solid var(--main-green);
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.chat-input-area input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--dim-text);
+  color: var(--main-green);
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 13px;
+}
+
+.chat-input-area input:focus {
+  border-color: var(--main-green);
+  box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+}
+
+.chat-input-area button {
+  background: rgba(0, 255, 102, 0.15);
+  border: 1px solid var(--main-green);
+  color: var(--main-green);
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.chat-input-area button:active {
+  background: var(--main-green);
+  color: #000;
+}
